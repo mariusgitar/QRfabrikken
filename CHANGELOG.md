@@ -5,14 +5,13 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Fixed
-- Municipality logo now loads from local `./assets/tonsberg-logo.png` with cache-busting query parameters for GitHub Pages updates.
-- Logo loading failures now reset logo-promise cache so a later render can retry successfully.
-- QR rendering now keeps generated output even if logo overlay fails, with a clear status/error message.
+- Stabilized municipality logo cache-busting by using a constant `APP_ASSET_VERSION` query value instead of time-based cache keys.
+- Municipality logo load failures continue to clear logo promise cache, allowing retries on subsequent renders.
 
 ### Changed
-- Municipality logo overlay is now rendered as a rounded branded badge with circular clipping and a subtle responsive border.
-- Preview canvas is centered with flexbox so margin/padding changes no longer appear top-left aligned in the preview panel.
-- README documentation now references PNG logo usage, GitHub Pages cache behavior, and PR5.1 manual tests.
+- Updated municipality logo badge rendering with refined proportions: 16% logo size, rounded clipping, white circular badge, and subtle circular border stroke.
+- Kept QR preview canvas centered in `.preview-canvas-wrap` with flexbox alignment while margin/size settings change.
+- Updated README with PR5.2 manual checks including badge visuals, centered preview behavior, and version-based cache-bust verification.
 
 ### Previous
 - Added foreground/background color pickers to customize QR rendering colors.

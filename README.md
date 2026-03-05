@@ -58,11 +58,11 @@ No build tools or package installs are required.
 Når kommunen-logo brukes i midten av en QR-kode, dekkes noe av kodens dataflate. Derfor settes feilkorreksjon automatisk til **H** for å gi høyest mulig robusthet mot tildekking.
 
 Designvalg i denne løsningen:
-- Logoen har fast størrelse på omtrent **18% av QR-bredden**.
+- Logoen har fast størrelse på omtrent **16% av QR-bredden**.
 - Det tegnes en **hvit sirkulær bakgrunn** bak logoen for bedre kontrast og lesbarhet.
 - Kun **Tønsberg kommune-logo** støttes i prosjektet. Opplasting av egne logoer er ikke tilgjengelig.
 - Logoen må ligge lokalt på `assets/tonsberg-logo.png`.
-- GitHub Pages-cache håndteres med innebygd cache-busting ved innlasting av logo, slik at oppdateringer med samme filnavn kan hentes etter refresh.
+- GitHub Pages-cache håndteres med innebygd cache-busting via `APP_ASSET_VERSION` i `src/logo.js`, slik at oppdateringer med samme filnavn kan hentes etter versjonsbump + refresh.
 
 Skanningsanbefalinger:
 - Bruk mørk forgrunn og lys bakgrunn for best kontrast.
@@ -78,10 +78,10 @@ Deployment is automated through GitHub Actions.
 3. The workflow in `.github/workflows/pages.yml` publishes the repository root.
 4. Open the generated `github-pages` environment URL.
 
-## Manual test checklist (PR5.1)
+## Manual test checklist (PR5.2)
 
 - [x] Generate QR from a URL with logo toggle **OFF** -> QR renders and scans.
-- [x] Toggle logo **ON** -> logo from `assets/tonsberg-logo.png` appears and QR still scans.
-- [x] Replace `assets/tonsberg-logo.png` (same filename) and refresh -> updated logo appears (cache-busting).
-- [x] Change margin/padding -> QR preview stays visually centered in the preview card.
+- [x] Toggle logo **ON** -> logo from `assets/tonsberg-logo.png` appears as a rounded badge with subtle border and QR still scans.
+- [x] Bump `APP_ASSET_VERSION` and refresh -> updated `assets/tonsberg-logo.png` appears (cache-busting).
+- [x] Change margin/size -> QR preview stays visually centered in the preview card.
 - [x] Download PNG works and browser console stays free of errors during normal flow.

@@ -1,8 +1,9 @@
 const MUNICIPALITY_LOGO_PATH = './assets/tonsberg-logo.png';
+const APP_ASSET_VERSION = '5.2.0';
 let municipalityLogoPromise;
 
 function buildLogoSource() {
-  return `${MUNICIPALITY_LOGO_PATH}?v=${Date.now()}`;
+  return `${MUNICIPALITY_LOGO_PATH}?v=${encodeURIComponent(APP_ASSET_VERSION)}`;
 }
 
 function loadMunicipalityLogo() {
@@ -29,13 +30,14 @@ export async function drawMunicipalityLogo(ctx, canvasSize) {
 
   try {
     const logoImage = await loadMunicipalityLogo();
-    const logoSize = canvasSize * 0.18;
     const center = canvasSize / 2;
-    const x = center - logoSize / 2;
-    const y = center - logoSize / 2;
-    const logoRadius = logoSize / 2;
-    const badgeRadius = logoRadius * 1.24;
-    const borderWidth = Math.max(1, canvasSize * 0.006);
+    const logoSize = canvasSize * 0.16;
+    const logoX = center - logoSize / 2;
+    const logoY = center - logoSize / 2;
+
+    const badgeRadius = (logoSize / 2) * 1.55;
+    const clipRadius = badgeRadius * 0.82;
+    const borderWidth = Math.max(1, canvasSize * 0.0045);
 
     ctx.save();
     ctx.beginPath();
@@ -46,15 +48,15 @@ export async function drawMunicipalityLogo(ctx, canvasSize) {
 
     ctx.save();
     ctx.beginPath();
-    ctx.arc(center, center, logoRadius, 0, Math.PI * 2);
+    ctx.arc(center, center, clipRadius, 0, Math.PI * 2);
     ctx.clip();
-    ctx.drawImage(logoImage, x, y, logoSize, logoSize);
+    ctx.drawImage(logoImage, logoX, logoY, logoSize, logoSize);
     ctx.restore();
 
     ctx.save();
     ctx.beginPath();
     ctx.lineWidth = borderWidth;
-    ctx.strokeStyle = 'rgba(30, 64, 175, 0.28)';
+    ctx.strokeStyle = 'rgba(30, 64, 175, 0.24)';
     ctx.arc(center, center, badgeRadius - borderWidth / 2, 0, Math.PI * 2);
     ctx.stroke();
     ctx.restore();
