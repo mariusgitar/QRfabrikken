@@ -13,26 +13,23 @@ function buildTimestamp() {
   return `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
 }
 
-export function downloadCanvasPng(canvas, filenameBase) {
-  if (!canvas) {
+function buildFilename(filenameBase) {
+  const sanitizedBase = sanitizeFilenamePart(filenameBase) || 'qr-code';
+  return `${sanitizedBase}-${buildTimestamp()}`;
+}
+
+export function downloadStyledQr(qrInstance, filenameBase) {
+  if (!qrInstance || typeof qrInstance.download !== 'function') {
     return { ok: false, message: 'QR preview is unavailable.' };
   }
 
-  const sanitizedBase = sanitizeFilenamePart(filenameBase) || 'qr-code';
-  const filename = `${sanitizedBase}-${buildTimestamp()}.png`;
-
-  const link = document.createElement('a');
-  link.href = canvas.toDataURL('image/png');
-  link.download = filename;
-  document.body.append(link);
-  link.click();
-  link.remove();
-
-  return { ok: true, message: `Downloaded ${filename}` };
+  const name = buildFilename(filenameBase);
+  qrInstance.download({ extension: 'png', name });
+  return { ok: true, message: `Downloaded ${name}.png` };
 }
 
-export async function copyCanvasToClipboard(canvas) {
-  if (!canvas) {
+export async function copyStyledQrToClipboard(qrInstance) {
+  if (!qrInstance || typeof qrInstance.getRawData !== 'function') {
     return { ok: false, message: 'QR preview is unavailable.' };
   }
 
@@ -41,17 +38,7 @@ export async function copyCanvasToClipboard(canvas) {
   }
 
   try {
-    const blob = await new Promise((resolve, reject) => {
-      canvas.toBlob((result) => {
-        if (!result) {
-          reject(new Error('Failed to create PNG blob.'));
-          return;
-        }
-
-        resolve(result);
-      }, 'image/png');
-    });
-
+    const blob = await qrInstance.getRawData('png');
     await navigator.clipboard.write([new window.ClipboardItem({ 'image/png': blob })]);
     return { ok: true, message: 'Copied QR image to clipboard.' };
   } catch (error) {

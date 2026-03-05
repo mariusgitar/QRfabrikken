@@ -1,5 +1,5 @@
-import { downloadCanvasPng, copyCanvasToClipboard } from './download.js';
-import { renderQrToCanvas } from './qr.js';
+import { downloadStyledQr, copyStyledQrToClipboard } from './download.js';
+import { renderQrToCanvas, getQrInstance } from './qr.js';
 
 const DEFAULTS = {
   size: 256,
@@ -64,8 +64,7 @@ async function updateView() {
     fgColor: state.fgColor,
     bgColor: state.bgColor,
     margin: state.margin,
-    showMunicipalityLogo: state.showMunicipalityLogo,
-    canvas: dom.qrCanvas,
+    showMunicipalityLogo: state.showMunicipalityLogo
   });
 
   if (currentToken !== renderToken) {
@@ -138,7 +137,7 @@ function bindEvents() {
       return;
     }
 
-    const result = downloadCanvasPng(dom.qrCanvas, state.text);
+    const result = downloadStyledQr(getQrInstance(), state.text);
     setStatus(result.message, !result.ok);
   });
 
@@ -147,7 +146,7 @@ function bindEvents() {
       return;
     }
 
-    const result = await copyCanvasToClipboard(dom.qrCanvas);
+    const result = await copyStyledQrToClipboard(getQrInstance());
     setStatus(result.message, !result.ok);
   });
 }
@@ -167,7 +166,6 @@ document.addEventListener('DOMContentLoaded', () => {
     resetButton: document.getElementById('reset-btn'),
     downloadButton: document.getElementById('download-btn'),
     copyButton: document.getElementById('copy-btn'),
-    qrCanvas: document.getElementById('qr-canvas'),
     statusMessage: document.getElementById('status-message'),
   };
 

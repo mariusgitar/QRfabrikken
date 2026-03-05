@@ -1,6 +1,78 @@
-import { drawMunicipalityLogo } from './logo.js';
-
 const VALID_EC_LEVELS = new Set(['L', 'M', 'Q', 'H']);
+const APP_ASSET_VERSION = '7.0.0';
+const MUNICIPALITY_LOGO_PATH = `./assets/tonsberg-logo.png?v=${encodeURIComponent(APP_ASSET_VERSION)}`;
+
+let qr;
+
+function normalizeSize(size) {
+  const parsed = Number(size);
+  return Number.isFinite(parsed) ? Math.max(128, parsed) : 256;
+}
+
+function normalizeMargin(margin) {
+  const parsed = Number(margin);
+  return Number.isFinite(parsed) ? Math.max(4, parsed) : 4;
+}
+
+function normalizeEcLevel(ecLevel, showMunicipalityLogo) {
+  if (showMunicipalityLogo) {
+    return 'H';
+  }
+
+  return VALID_EC_LEVELS.has(ecLevel) ? ecLevel : 'M';
+}
+
+function clearPreview(container) {
+  if (container) {
+    container.innerHTML = '';
+  }
+}
+
+function baseOptions({
+  text,
+  size,
+  margin,
+  fgColor,
+  bgColor,
+  showMunicipalityLogo,
+  ecLevel,
+}) {
+  return {
+    width: size,
+    height: size,
+    type: 'canvas',
+    data: text,
+    margin,
+    image: showMunicipalityLogo ? MUNICIPALITY_LOGO_PATH : undefined,
+    qrOptions: {
+      errorCorrectionLevel: ecLevel,
+    },
+    dotsOptions: {
+      type: 'rounded',
+      color: fgColor,
+    },
+    backgroundOptions: {
+      color: bgColor,
+    },
+    cornersSquareOptions: {
+      type: 'extra-rounded',
+      color: fgColor,
+    },
+    cornersDotOptions: {
+      type: 'dot',
+      color: fgColor,
+    },
+    imageOptions: {
+      crossOrigin: 'anonymous',
+      margin: 6,
+      imageSize: 0.35,
+    },
+  };
+}
+
+export function getQrInstance() {
+  return qr;
+}
 
 export async function renderQrToCanvas({
   text,
@@ -10,52 +82,42 @@ export async function renderQrToCanvas({
   bgColor = '#ffffff',
   margin = 2,
   showMunicipalityLogo = false,
-  canvas = document.getElementById('qr-canvas'),
 }) {
-  if (!canvas) {
-    return { ok: false, message: 'QR canvas element not found.' };
+  const container = document.getElementById('qr-preview');
+  if (!container) {
+    return { ok: false, message: 'QR preview element not found.' };
   }
 
   const trimmedText = String(text ?? '').trim();
   if (!trimmedText) {
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    clearPreview(container);
     return { ok: false, message: 'Enter text or URL to generate a QR code.' };
   }
 
-  const normalizedSize = Number.isFinite(Number(size)) ? Number(size) : 256;
-  const normalizedEcLevel = VALID_EC_LEVELS.has(ecLevel) ? ecLevel : 'M';
-  const normalizedMargin = Number.isFinite(Number(margin)) ? Math.max(0, Number(margin)) : 2;
-
-  canvas.width = normalizedSize;
-  canvas.height = normalizedSize;
-
-  if (!window.QRious) {
+  if (!window.QRCodeStyling) {
     return { ok: false, message: 'QR library failed to load. Please refresh and try again.' };
   }
 
-  new window.QRious({
-    element: canvas,
-    value: trimmedText,
+  const normalizedSize = normalizeSize(size);
+  const normalizedMargin = normalizeMargin(margin);
+  const normalizedEcLevel = normalizeEcLevel(ecLevel, showMunicipalityLogo);
+
+  const options = baseOptions({
+    text: trimmedText,
     size: normalizedSize,
-    level: normalizedEcLevel,
-    foreground: fgColor,
-    background: bgColor,
-    padding: normalizedMargin,
+    margin: normalizedMargin,
+    fgColor,
+    bgColor,
+    showMunicipalityLogo,
+    ecLevel: normalizedEcLevel,
   });
 
-  if (showMunicipalityLogo) {
-    try {
-      const ctx = canvas.getContext('2d');
-      await drawMunicipalityLogo(ctx, normalizedSize);
-    } catch (error) {
-      console.error('Municipality logo overlay failed:', error);
-      return {
-        ok: true,
-        message:
-          'QR generated, but municipality logo could not be loaded from ./assets/tonsberg-logo.png.',
-      };
-    }
+  if (!qr) {
+    qr = new window.QRCodeStyling(options);
+    clearPreview(container);
+    qr.append(container);
+  } else {
+    qr.update(options);
   }
 
   return { ok: true, message: 'QR code updated.' };

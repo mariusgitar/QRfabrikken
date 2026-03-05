@@ -171,6 +171,27 @@ canvas {
   background: #fff;
 }
 
+
+#qr-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(100%, 360px);
+  min-height: 180px;
+}
+
+#qr-preview canvas,
+#qr-preview svg {
+  display: block;
+  width: min(100%, 360px);
+  height: auto;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+}
+
+
 .hint {
   margin: 0;
   color: var(--muted);

@@ -4,14 +4,20 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-### Fixed
-- Stabilized municipality logo cache-busting by using a constant `APP_ASSET_VERSION` query value instead of time-based cache keys.
-- Municipality logo load failures continue to clear logo promise cache, allowing retries on subsequent renders.
+### Added
+- Switched QR rendering engine from `qrious` to `qr-code-styling` via CDN for branded styles.
+- Added styled QR output with rounded dots (`dotsOptions.type=rounded`) and rounded finder corners.
+- Added single shared `QRCodeStyling` instance lifecycle (create once, update on every control change).
 
 ### Changed
-- Updated municipality logo badge rendering with refined proportions: 16% logo size, rounded clipping, white circular badge, and subtle circular border stroke.
-- Kept QR preview canvas centered in `.preview-canvas-wrap` with flexbox alignment while margin/size settings change.
-- Updated README with PR5.2 manual checks including badge visuals, centered preview behavior, and version-based cache-bust verification.
+- Replaced canvas preview element with a container-based preview (`#qr-preview`) used by `qr-code-styling`.
+- Updated municipality logo behavior to use built-in center image embedding from local `./assets/tonsberg-logo.png`.
+- Enforced error correction level `H` when municipality logo is enabled.
+- Updated download/copy actions to use `qr-code-styling` APIs (`download`, `getRawData`).
+- Updated README with styled QR behavior and PR7 manual checks.
+
+### Removed
+- Removed manual logo overlay drawing pipeline used by previous canvas-based rendering.
 
 ### Previous
 - Added foreground/background color pickers to customize QR rendering colors.
