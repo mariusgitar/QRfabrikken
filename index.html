@@ -13,8 +13,10 @@
     </header>
 
     <main class="app-shell" aria-label="QR generator app">
-      <section class="panel" aria-labelledby="content-heading">
-        <h2 id="content-heading">Content</h2>
+      <section class="panel panel-main" aria-labelledby="content-heading">
+        <h2 id="content-heading">QR generator</h2>
+        <p class="setting-info">Lim inn URL – ferdig.</p>
+
         <label for="qr-content">Text or URL</label>
         <textarea
           id="qr-content"
@@ -23,59 +25,12 @@
           placeholder="https://example.com"
           aria-describedby="status-message"
         ></textarea>
-      </section>
 
-      <section class="panel" aria-labelledby="settings-heading">
-        <h2 id="settings-heading">Settings</h2>
+        <p class="setting-info quick-logo-status">
+          Kommunelogo: <strong id="logo-status-value">På</strong>
+          <button id="open-settings-btn" class="link-button" type="button" aria-controls="advanced-settings">Endre innstillinger</button>
+        </p>
 
-        <div class="setting-row">
-          <label for="size">Size: <span id="size-value">256</span>px</label>
-          <input id="size" name="size" type="range" min="128" max="512" step="16" value="256" />
-        </div>
-
-        <div class="setting-row">
-          <label for="ec-level">Error correction</label>
-          <select id="ec-level" name="ec-level">
-            <option value="L">L (Low)</option>
-            <option value="M" selected>M (Medium)</option>
-            <option value="Q">Q (Quartile)</option>
-            <option value="H">H (High)</option>
-          </select>
-        </div>
-
-        <div class="setting-row setting-row-inline">
-          <label for="fg-color">Foreground</label>
-          <input id="fg-color" name="fg-color" type="color" value="#111111" />
-        </div>
-
-        <div class="setting-row setting-row-inline">
-          <label for="bg-color">Background</label>
-          <input id="bg-color" name="bg-color" type="color" value="#ffffff" />
-        </div>
-
-        <div class="setting-row">
-          <label for="margin">Margin: <span id="margin-value">2</span></label>
-          <input id="margin" name="margin" type="range" min="0" max="8" step="1" value="2" />
-        </div>
-
-        <div class="setting-row setting-row-checkbox">
-          <label for="municipality-logo-toggle">
-            <input id="municipality-logo-toggle" name="municipality-logo-toggle" type="checkbox" />
-            Vis Tønsberg kommune-logo i QR
-          </label>
-          <p class="setting-info">
-            Når logo brukes settes feilkorreksjon til høyeste nivå (H) for bedre lesbarhet.
-          </p>
-        </div>
-
-        <div class="settings-actions">
-          <button id="generate-btn" type="button">Generate QR</button>
-          <button id="reset-btn" type="button">Reset to defaults</button>
-        </div>
-      </section>
-
-      <section class="panel panel-preview" aria-labelledby="preview-heading">
-        <h2 id="preview-heading">Preview</h2>
         <div class="preview-canvas-wrap">
           <div id="qr-preview" aria-label="Generated QR preview"></div>
         </div>
@@ -87,10 +42,63 @@
 
         <p id="status-message" class="hint" role="status">Enter text or URL to generate a QR code.</p>
       </section>
+
+      <section class="panel" aria-labelledby="settings-heading">
+        <h2 id="settings-heading">Advanced</h2>
+
+        <details id="advanced-settings" class="advanced-settings">
+          <summary id="advanced-settings-summary">Flere innstillinger</summary>
+
+          <div class="setting-row">
+            <label for="size">Size: <span id="size-value">800</span>px</label>
+            <input id="size" name="size" type="range" min="512" max="1024" step="32" value="800" />
+            <p class="setting-info">Tips: Bruk 512–1024 for skarp logo og trykk.</p>
+          </div>
+
+          <div class="setting-row">
+            <label for="margin">Margin: <span id="margin-value">4</span></label>
+            <input id="margin" name="margin" type="range" min="4" max="16" step="1" value="4" />
+          </div>
+
+          <div class="setting-row">
+            <label for="ec-level">Error correction</label>
+            <select id="ec-level" name="ec-level">
+              <option value="L">L (Low)</option>
+              <option value="M">M (Medium)</option>
+              <option value="Q">Q (Quartile)</option>
+              <option value="H" selected>H (High)</option>
+            </select>
+          </div>
+
+          <div class="setting-row setting-row-inline">
+            <label for="fg-color">Foreground</label>
+            <input id="fg-color" name="fg-color" type="color" value="#111111" />
+          </div>
+
+          <div class="setting-row setting-row-inline">
+            <label for="bg-color">Background</label>
+            <input id="bg-color" name="bg-color" type="color" value="#ffffff" />
+          </div>
+
+          <div class="setting-row setting-row-checkbox">
+            <label for="municipality-logo-toggle">
+              <input id="municipality-logo-toggle" name="municipality-logo-toggle" type="checkbox" checked />
+              Vis Tønsberg kommune-logo i QR
+            </label>
+            <p class="setting-info">
+              Når logo brukes settes feilkorreksjon til høyeste nivå (H) for bedre lesbarhet.
+            </p>
+          </div>
+
+          <div class="settings-actions">
+            <button id="reset-btn" type="button">Reset to defaults</button>
+          </div>
+        </details>
+      </section>
     </main>
 
     <footer class="site-footer">
-      <small>QR Studio PR #7</small>
+      <small>QR Studio UX update</small>
     </footer>
 
     <script src="https://unpkg.com/qr-code-styling/lib/qr-code-styling.js" defer></script>

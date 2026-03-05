@@ -2,58 +2,49 @@
 
 QR Studio is a lightweight static web app for generating branded QR codes directly in the browser.
 
-## Features in PR #7
+## Simple mode (default workflow)
 
-- Enter any text or URL and generate a QR code.
-- Styled QR rendering with **rounded dots** and **rounded corners** via `qr-code-styling` (CDN).
-- Adjust output size from 128px to 512px.
-- Choose error correction level: L, M, Q, or H.
-- Customize foreground/background colors.
-- Adjust QR margin (quiet zone).
-- Toggle municipality-branded QR with centered Tønsberg kommune logo.
-- Municipality logo mode automatically enforces error correction **H**.
-- Download the current QR preview as a PNG file.
-- Copy the current QR image to clipboard (if browser support is available).
+1. Lim inn tekst eller URL i feltet.
+2. QR forhåndsvisning oppdateres automatisk med sensible defaults:
+   - størrelse `800px`
+   - kommunelogo **på**
+   - feilkorreksjon `H` når logo er aktiv
+3. Klikk **Download PNG** (eller **Copy image**) for å bruke QR-koden.
 
-## Project structure
+Dette er laget for ikke-eksperter: «Lim inn URL – ferdig.»
 
-- `index.html` — semantic UI layout + CDN dependency loading
-- `styles.css` — responsive mobile-first styling and a11y focus states
-- `assets/tonsberg-logo.png` — municipality logo asset used in QR center image
-- `src/app.js` — UI wiring and state/update flow
-- `src/qr.js` — styled QR rendering helper (`qr-code-styling` instance lifecycle)
-- `src/download.js` — PNG download and clipboard-copy helpers
+## Advanced settings
+
+Klikk **Flere innstillinger** for å åpne avanserte valg:
+
+- Size slider (`512–1024`, step `32`)
+- Margin (minimum `4`)
+- Error correction
+- Foreground/background-farger
+- Toggle for kommunelogo
+
+Merk: Kommunelogo er på som standard. Du kan åpne settings via **Endre innstillinger**.
+
+## Municipality logo guidance
+
+- Bruk kun kommunens logo (ingen opplasting/presets).
+- Foretrukket kilde: `assets/tonsberg-logo.svg` (vektor).
+- Fallback: `assets/tonsberg-logo.png` i høy oppløsning (`1024x1024` anbefalt).
+- QR størrelser under 512 kan gi blurr på rasterlogo; derfor clampes størrelsen til `512–1024`.
 
 ## Run locally
-
-No build tools or package installs are required.
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then open `http://localhost:8000`.
+Åpne deretter `http://localhost:8000`.
 
-## How to use
+## Manual test checklist
 
-1. Enter text or a URL into the **Text or URL** field.
-2. Tune **Size**, **Error correction**, **Foreground**, **Background**, and **Margin**.
-3. Optional: enable **Vis Tønsberg kommune-logo i QR**.
-4. Click **Generate QR** (or type and wait for auto-update).
-5. Click **Download PNG** to save the generated QR image.
-6. Click **Copy image** to copy PNG data to clipboard (if supported by your browser).
-
-## Municipality logo rules
-
-- Only local `./assets/tonsberg-logo.png` is supported.
-- No user logo upload is supported.
-- Logo mode uses conservative image settings (`imageSize: 0.35`, `imageOptions.margin: 6`).
-- Logo mode enforces higher robustness with QR error correction level `H`.
-
-## Manual test checklist (PR7)
-
-- [x] Enter a `https://` URL -> styled QR appears with rounded dots/corners.
-- [x] Toggle logo -> centered municipality logo appears and QR remains scannable.
-- [x] Change size/margin/colors -> QR updates immediately.
-- [x] Download PNG -> file downloads and scans.
-- [x] No console errors during normal flow.
+- [x] Last siden: default size er `800`, logo er **på**, og QR genereres når URL/text limes inn.
+- [x] Avanserte innstillinger er skjult som default.
+- [x] Åpne **Flere innstillinger** og endre size/margin/farger/logo -> preview oppdateres.
+- [x] Download PNG fungerer og eksport matcher preview.
+- [x] Tastatur: Tab til summary, Enter/Space toggler details, fokus er synlig.
+- [x] Ingen console errors i normal flyt.
