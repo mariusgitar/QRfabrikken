@@ -1,8 +1,11 @@
 import { downloadStyledQr, copyStyledQrToClipboard } from './download.js';
 import { renderQrToCanvas, getQrInstance } from './qr.js';
 
+const SIZE_MIN = 512;
+const SIZE_MAX = 1024;
+
 const DEFAULTS = {
-  size: 256,
+  size: 768,
   ecLevel: 'M',
   fgColor: '#111111',
   bgColor: '#ffffff',
@@ -19,6 +22,15 @@ const state = {
 let dom = {};
 let debounceTimer;
 let renderToken = 0;
+
+function clampSize(size) {
+  const parsed = Number(size);
+  if (!Number.isFinite(parsed)) {
+    return DEFAULTS.size;
+  }
+
+  return Math.max(SIZE_MIN, Math.min(SIZE_MAX, parsed));
+}
 
 function syncQrAccentColor() {
   document.documentElement.style.setProperty('--qr-accent', state.fgColor);
@@ -44,6 +56,7 @@ function syncErrorCorrectionUi() {
 }
 
 function applyStateToInputs() {
+  state.size = clampSize(state.size);
   dom.sizeInput.value = String(state.size);
   dom.sizeValue.textContent = String(state.size);
   dom.ecLevelSelect.value = state.ecLevel;
@@ -58,6 +71,8 @@ function applyStateToInputs() {
 
 async function updateView() {
   const currentToken = ++renderToken;
+  state.size = clampSize(state.size);
+  dom.sizeInput.value = String(state.size);
   dom.sizeValue.textContent = String(state.size);
   dom.marginValue.textContent = String(state.margin);
   syncErrorCorrectionUi();
@@ -69,7 +84,7 @@ async function updateView() {
     fgColor: state.fgColor,
     bgColor: state.bgColor,
     margin: state.margin,
-    showMunicipalityLogo: state.showMunicipalityLogo
+    showMunicipalityLogo: state.showMunicipalityLogo,
   });
 
   if (currentToken !== renderToken) {
@@ -93,7 +108,7 @@ function bindEvents() {
   });
 
   dom.sizeInput.addEventListener('input', (event) => {
-    state.size = Number(event.target.value);
+    state.size = clampSize(event.target.value);
     updateView();
   });
 
