@@ -9,7 +9,7 @@ let qr;
 function normalizeSize(size) {
   const parsed = Number(size);
   if (!Number.isFinite(parsed)) {
-    return 768;
+    return 800;
   }
 
   return Math.max(SIZE_MIN, Math.min(SIZE_MAX, parsed));
@@ -30,7 +30,7 @@ function normalizeEcLevel(ecLevel, showMunicipalityLogo) {
 
 function getLogoSizing(size) {
   const t = (size - SIZE_MIN) / (SIZE_MAX - SIZE_MIN);
-  const imageSize = 0.28 + t * 0.05;
+  const imageSize = 0.30 + t * 0.05;
   const logoMargin = Math.round(size * 0.012);
 
   return {

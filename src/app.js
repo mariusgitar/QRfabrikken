@@ -3,14 +3,15 @@ import { renderQrToCanvas, getQrInstance } from './qr.js';
 
 const SIZE_MIN = 512;
 const SIZE_MAX = 1024;
+const MARGIN_MIN = 4;
 
 const DEFAULTS = {
-  size: 768,
-  ecLevel: 'M',
+  size: 800,
+  ecLevel: 'H',
   fgColor: '#111111',
   bgColor: '#ffffff',
-  margin: 2,
-  showMunicipalityLogo: false,
+  margin: 4,
+  showMunicipalityLogo: true,
 };
 
 const state = {
@@ -30,6 +31,15 @@ function clampSize(size) {
   }
 
   return Math.max(SIZE_MIN, Math.min(SIZE_MAX, parsed));
+}
+
+function clampMargin(margin) {
+  const parsed = Number(margin);
+  if (!Number.isFinite(parsed)) {
+    return DEFAULTS.margin;
+  }
+
+  return Math.max(MARGIN_MIN, parsed);
 }
 
 function syncQrAccentColor() {
@@ -55,8 +65,13 @@ function syncErrorCorrectionUi() {
   dom.ecLevelSelect.disabled = state.showMunicipalityLogo;
 }
 
+function syncLogoStatusHint() {
+  dom.logoStatusValue.textContent = state.showMunicipalityLogo ? 'På' : 'Av';
+}
+
 function applyStateToInputs() {
   state.size = clampSize(state.size);
+  state.margin = clampMargin(state.margin);
   dom.sizeInput.value = String(state.size);
   dom.sizeValue.textContent = String(state.size);
   dom.ecLevelSelect.value = state.ecLevel;
@@ -67,15 +82,19 @@ function applyStateToInputs() {
   dom.municipalityLogoToggle.checked = state.showMunicipalityLogo;
   syncQrAccentColor();
   syncErrorCorrectionUi();
+  syncLogoStatusHint();
 }
 
 async function updateView() {
   const currentToken = ++renderToken;
   state.size = clampSize(state.size);
+  state.margin = clampMargin(state.margin);
   dom.sizeInput.value = String(state.size);
   dom.sizeValue.textContent = String(state.size);
+  dom.marginInput.value = String(state.margin);
   dom.marginValue.textContent = String(state.margin);
   syncErrorCorrectionUi();
+  syncLogoStatusHint();
 
   const result = await renderQrToCanvas({
     text: state.text,
@@ -113,7 +132,7 @@ function bindEvents() {
   });
 
   dom.marginInput.addEventListener('input', (event) => {
-    state.margin = Number(event.target.value);
+    state.margin = clampMargin(event.target.value);
     updateView();
   });
 
@@ -141,9 +160,9 @@ function bindEvents() {
     updateView();
   });
 
-  dom.generateButton.addEventListener('click', () => {
-    state.text = dom.contentInput.value;
-    updateView();
+  dom.openSettingsButton.addEventListener('click', () => {
+    dom.advancedSettings.open = true;
+    dom.advancedSettings.querySelector('summary')?.focus();
   });
 
   dom.resetButton.addEventListener('click', () => {
@@ -183,7 +202,9 @@ document.addEventListener('DOMContentLoaded', () => {
     fgColorInput: document.getElementById('fg-color'),
     bgColorInput: document.getElementById('bg-color'),
     municipalityLogoToggle: document.getElementById('municipality-logo-toggle'),
-    generateButton: document.getElementById('generate-btn'),
+    openSettingsButton: document.getElementById('open-settings-btn'),
+    advancedSettings: document.getElementById('advanced-settings'),
+    logoStatusValue: document.getElementById('logo-status-value'),
     resetButton: document.getElementById('reset-btn'),
     downloadButton: document.getElementById('download-btn'),
     copyButton: document.getElementById('copy-btn'),
