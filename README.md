@@ -2,19 +2,21 @@
 
 QR Studio is a lightweight, dependency-free static web app for generating QR codes directly in the browser.
 
-## Features in PR #3
+## Features in PR #4
 
 - Enter any text or URL and generate a QR code.
 - Adjust output size from 128px to 512px.
 - Choose error correction level: L, M, Q, or H.
+- Customize foreground/background colors.
+- Adjust QR margin (quiet zone).
+- Reset all settings to safe defaults.
 - Download the current QR preview as a PNG file.
 - Copy the current QR image to clipboard with graceful fallback messaging.
-- Instant preview updates with helpful inline status messages.
 
 ## Project structure
 
 - `index.html` — semantic UI layout
-- `styles.css` — responsive mobile-first styling
+- `styles.css` — responsive mobile-first styling and a11y focus states
 - `src/app.js` — UI wiring and state/update flow
 - `src/qr.js` — QR rendering helper logic
 - `src/download.js` — PNG download and clipboard-copy helpers
@@ -41,11 +43,11 @@ No build tools or package installs are required.
 ## How to use
 
 1. Enter text or a URL into the **Text or URL** field.
-2. Click **Generate QR** (or just type and wait for auto-update).
-3. Use the **Size** slider to change output dimensions.
-4. Select an **Error correction** level (L/M/Q/H).
-5. Click **Download PNG** to save the generated QR image.
-6. Click **Copy image** to copy PNG data to clipboard (if supported by your browser).
+2. Tune **Size**, **Error correction**, **Foreground**, **Background**, and **Margin**.
+3. Click **Generate QR** (or type and wait for auto-update).
+4. Click **Download PNG** to save the generated QR image.
+5. Click **Copy image** to copy PNG data to clipboard (if supported by your browser).
+6. Click **Reset to defaults** to restore baseline settings.
 
 ## Deploy to GitHub Pages
 
@@ -56,8 +58,13 @@ Deployment is automated through GitHub Actions.
 3. The workflow in `.github/workflows/pages.yml` publishes the repository root.
 4. Open the generated `github-pages` environment URL.
 
-## Manual test checklist (PR #3)
+## Manual test checklist (PR #4)
 
-- [x] Generate QR → Download saves a PNG.
-- [x] Filename includes date/time or sanitized text snippet.
-- [x] Copy image works in modern browsers; if blocked, show helpful message.
+- [x] Changing colors updates QR.
+- [x] Background color actually affects canvas.
+- [x] Margin changes QR quiet zone.
+- [x] Reset restores defaults.
+
+## Screenshots
+
+- Optional for local review: capture a screenshot after generating a QR and changing colors/margin.

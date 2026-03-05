@@ -1,10 +1,17 @@
 import { downloadCanvasPng, copyCanvasToClipboard } from './download.js';
 import { renderQrToCanvas } from './qr.js';
 
-const state = {
-  text: '',
+const DEFAULTS = {
   size: 256,
   ecLevel: 'M',
+  fgColor: '#111111',
+  bgColor: '#ffffff',
+  margin: 2,
+};
+
+const state = {
+  text: '',
+  ...DEFAULTS,
   hasQr: false,
 };
 
@@ -21,13 +28,27 @@ function setActionsDisabled(isDisabled) {
   dom.copyButton.disabled = isDisabled;
 }
 
+function applyStateToInputs() {
+  dom.sizeInput.value = String(state.size);
+  dom.sizeValue.textContent = String(state.size);
+  dom.ecLevelSelect.value = state.ecLevel;
+  dom.fgColorInput.value = state.fgColor;
+  dom.bgColorInput.value = state.bgColor;
+  dom.marginInput.value = String(state.margin);
+  dom.marginValue.textContent = String(state.margin);
+}
+
 function updateView() {
   dom.sizeValue.textContent = String(state.size);
+  dom.marginValue.textContent = String(state.margin);
 
   const result = renderQrToCanvas({
     text: state.text,
     size: state.size,
     ecLevel: state.ecLevel,
+    fgColor: state.fgColor,
+    bgColor: state.bgColor,
+    margin: state.margin,
     canvas: dom.qrCanvas,
   });
 
@@ -52,14 +73,36 @@ function bindEvents() {
     updateView();
   });
 
+  dom.marginInput.addEventListener('input', (event) => {
+    state.margin = Number(event.target.value);
+    updateView();
+  });
+
   dom.ecLevelSelect.addEventListener('change', (event) => {
     state.ecLevel = event.target.value;
+    updateView();
+  });
+
+  dom.fgColorInput.addEventListener('input', (event) => {
+    state.fgColor = event.target.value;
+    updateView();
+  });
+
+  dom.bgColorInput.addEventListener('input', (event) => {
+    state.bgColor = event.target.value;
     updateView();
   });
 
   dom.generateButton.addEventListener('click', () => {
     state.text = dom.contentInput.value;
     updateView();
+  });
+
+  dom.resetButton.addEventListener('click', () => {
+    Object.assign(state, DEFAULTS);
+    applyStateToInputs();
+    updateView();
+    setStatus('Settings reset to defaults.', false);
   });
 
   dom.downloadButton.addEventListener('click', () => {
@@ -86,8 +129,13 @@ document.addEventListener('DOMContentLoaded', () => {
     contentInput: document.getElementById('qr-content'),
     sizeInput: document.getElementById('size'),
     sizeValue: document.getElementById('size-value'),
+    marginInput: document.getElementById('margin'),
+    marginValue: document.getElementById('margin-value'),
     ecLevelSelect: document.getElementById('ec-level'),
+    fgColorInput: document.getElementById('fg-color'),
+    bgColorInput: document.getElementById('bg-color'),
     generateButton: document.getElementById('generate-btn'),
+    resetButton: document.getElementById('reset-btn'),
     downloadButton: document.getElementById('download-btn'),
     copyButton: document.getElementById('copy-btn'),
     qrCanvas: document.getElementById('qr-canvas'),
@@ -99,6 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
+  applyStateToInputs();
   bindEvents();
   updateView();
 });

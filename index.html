@@ -43,7 +43,25 @@
           </select>
         </div>
 
-        <button id="generate-btn" type="button">Generate QR</button>
+        <div class="setting-row setting-row-inline">
+          <label for="fg-color">Foreground</label>
+          <input id="fg-color" name="fg-color" type="color" value="#111111" />
+        </div>
+
+        <div class="setting-row setting-row-inline">
+          <label for="bg-color">Background</label>
+          <input id="bg-color" name="bg-color" type="color" value="#ffffff" />
+        </div>
+
+        <div class="setting-row">
+          <label for="margin">Margin: <span id="margin-value">2</span></label>
+          <input id="margin" name="margin" type="range" min="0" max="8" step="1" value="2" />
+        </div>
+
+        <div class="settings-actions">
+          <button id="generate-btn" type="button">Generate QR</button>
+          <button id="reset-btn" type="button">Reset to defaults</button>
+        </div>
       </section>
 
       <section class="panel panel-preview" aria-labelledby="preview-heading">
@@ -60,7 +78,7 @@
     </main>
 
     <footer class="site-footer">
-      <small>QR Studio PR #3</small>
+      <small>QR Studio PR #4</small>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js" defer></script>

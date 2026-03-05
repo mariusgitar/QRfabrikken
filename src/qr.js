@@ -22,6 +22,7 @@ export function renderQrToCanvas({
 
   const normalizedSize = Number.isFinite(Number(size)) ? Number(size) : 256;
   const normalizedEcLevel = VALID_EC_LEVELS.has(ecLevel) ? ecLevel : 'M';
+  const normalizedMargin = Number.isFinite(Number(margin)) ? Math.max(0, Number(margin)) : 2;
 
   canvas.width = normalizedSize;
   canvas.height = normalizedSize;
@@ -37,7 +38,7 @@ export function renderQrToCanvas({
     level: normalizedEcLevel,
     foreground: fgColor,
     background: bgColor,
-    padding: margin,
+    padding: normalizedMargin,
   });
 
   return { ok: true, message: 'QR code updated.' };
