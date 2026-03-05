@@ -77,7 +77,7 @@
       <section class="panel panel-preview" aria-labelledby="preview-heading">
         <h2 id="preview-heading">Preview</h2>
         <div class="preview-canvas-wrap">
-          <canvas id="qr-canvas" width="256" height="256" aria-label="Generated QR preview"></canvas>
+          <div id="qr-preview" aria-label="Generated QR preview"></div>
         </div>
 
         <div class="actions" aria-label="QR actions">
@@ -90,10 +90,10 @@
     </main>
 
     <footer class="site-footer">
-      <small>QR Studio PR #5</small>
+      <small>QR Studio PR #7</small>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js" defer></script>
+    <script src="https://unpkg.com/qr-code-styling/lib/qr-code-styling.js" defer></script>
     <script type="module" src="src/app.js"></script>
   </body>
 </html>
