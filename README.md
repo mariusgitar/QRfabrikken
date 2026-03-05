@@ -45,9 +45,10 @@ Then open `http://localhost:8000`.
 
 ## Municipality logo rules
 
-- Only local `./assets/tonsberg-logo.png` is supported.
-- No user logo upload is supported.
-- Logo mode uses conservative image settings (`imageSize: 0.35`, `imageOptions.margin: 6`).
+- Municipality logo must be provided as `assets/tonsberg-logo.png`.
+- Use a high-resolution square PNG for best sharpness (recommended: `1024x1024`, minimum: `512x512`).
+- Only local municipality logo usage is supported (no user logo upload).
+- Logo mode uses conservative image settings (`hideBackgroundDots: true`, `imageSize: 0.32`, `imageOptions.margin: 8`).
 - Logo mode enforces higher robustness with QR error correction level `H`.
 
 ## Manual test checklist (PR7)
@@ -56,4 +57,5 @@ Then open `http://localhost:8000`.
 - [x] Toggle logo -> centered municipality logo appears and QR remains scannable.
 - [x] Change size/margin/colors -> QR updates immediately.
 - [x] Download PNG -> file downloads and scans.
+- [x] Download PNG with municipality logo -> logo remains crisp (use 1024x1024 source PNG).
 - [x] No console errors during normal flow.
