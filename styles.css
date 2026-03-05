@@ -93,6 +93,24 @@ input {
   align-items: center;
 }
 
+.setting-row-checkbox label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.setting-row-checkbox input[type='checkbox'] {
+  width: auto;
+  height: auto;
+}
+
+.setting-info {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
 input[type='color'] {
   width: 4rem;
   height: 2.5rem;

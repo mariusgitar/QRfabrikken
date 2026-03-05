@@ -7,6 +7,7 @@ const DEFAULTS = {
   fgColor: '#111111',
   bgColor: '#ffffff',
   margin: 2,
+  showMunicipalityLogo: false,
 };
 
 const state = {
@@ -17,6 +18,7 @@ const state = {
 
 let dom = {};
 let debounceTimer;
+let renderToken = 0;
 
 function setStatus(message, isError = false) {
   dom.statusMessage.textContent = message;
@@ -28,6 +30,15 @@ function setActionsDisabled(isDisabled) {
   dom.copyButton.disabled = isDisabled;
 }
 
+function syncErrorCorrectionUi() {
+  if (state.showMunicipalityLogo) {
+    state.ecLevel = 'H';
+  }
+
+  dom.ecLevelSelect.value = state.ecLevel;
+  dom.ecLevelSelect.disabled = state.showMunicipalityLogo;
+}
+
 function applyStateToInputs() {
   dom.sizeInput.value = String(state.size);
   dom.sizeValue.textContent = String(state.size);
@@ -36,21 +47,30 @@ function applyStateToInputs() {
   dom.bgColorInput.value = state.bgColor;
   dom.marginInput.value = String(state.margin);
   dom.marginValue.textContent = String(state.margin);
+  dom.municipalityLogoToggle.checked = state.showMunicipalityLogo;
+  syncErrorCorrectionUi();
 }
 
-function updateView() {
+async function updateView() {
+  const currentToken = ++renderToken;
   dom.sizeValue.textContent = String(state.size);
   dom.marginValue.textContent = String(state.margin);
+  syncErrorCorrectionUi();
 
-  const result = renderQrToCanvas({
+  const result = await renderQrToCanvas({
     text: state.text,
     size: state.size,
     ecLevel: state.ecLevel,
     fgColor: state.fgColor,
     bgColor: state.bgColor,
     margin: state.margin,
+    showMunicipalityLogo: state.showMunicipalityLogo,
     canvas: dom.qrCanvas,
   });
+
+  if (currentToken !== renderToken) {
+    return;
+  }
 
   state.hasQr = result.ok;
   setActionsDisabled(!state.hasQr);
@@ -90,6 +110,14 @@ function bindEvents() {
 
   dom.bgColorInput.addEventListener('input', (event) => {
     state.bgColor = event.target.value;
+    updateView();
+  });
+
+  dom.municipalityLogoToggle.addEventListener('change', (event) => {
+    state.showMunicipalityLogo = event.target.checked;
+    if (state.showMunicipalityLogo) {
+      state.ecLevel = 'H';
+    }
     updateView();
   });
 
@@ -134,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ecLevelSelect: document.getElementById('ec-level'),
     fgColorInput: document.getElementById('fg-color'),
     bgColorInput: document.getElementById('bg-color'),
+    municipalityLogoToggle: document.getElementById('municipality-logo-toggle'),
     generateButton: document.getElementById('generate-btn'),
     resetButton: document.getElementById('reset-btn'),
     downloadButton: document.getElementById('download-btn'),

@@ -1,12 +1,15 @@
+import { drawMunicipalityLogo } from './logo.js';
+
 const VALID_EC_LEVELS = new Set(['L', 'M', 'Q', 'H']);
 
-export function renderQrToCanvas({
+export async function renderQrToCanvas({
   text,
   size,
   ecLevel,
   fgColor = '#111111',
   bgColor = '#ffffff',
   margin = 2,
+  showMunicipalityLogo = false,
   canvas = document.getElementById('qr-canvas'),
 }) {
   if (!canvas) {
@@ -40,6 +43,15 @@ export function renderQrToCanvas({
     background: bgColor,
     padding: normalizedMargin,
   });
+
+  if (showMunicipalityLogo) {
+    try {
+      const ctx = canvas.getContext('2d');
+      await drawMunicipalityLogo(ctx, normalizedSize);
+    } catch (error) {
+      return { ok: false, message: 'QR generated, but municipality logo could not be shown.' };
+    }
+  }
 
   return { ok: true, message: 'QR code updated.' };
 }

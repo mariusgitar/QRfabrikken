@@ -58,6 +58,16 @@
           <input id="margin" name="margin" type="range" min="0" max="8" step="1" value="2" />
         </div>
 
+        <div class="setting-row setting-row-checkbox">
+          <label for="municipality-logo-toggle">
+            <input id="municipality-logo-toggle" name="municipality-logo-toggle" type="checkbox" />
+            Vis Tønsberg kommune-logo i QR
+          </label>
+          <p class="setting-info">
+            Når logo brukes settes feilkorreksjon til høyeste nivå (H) for bedre lesbarhet.
+          </p>
+        </div>
+
         <div class="settings-actions">
           <button id="generate-btn" type="button">Generate QR</button>
           <button id="reset-btn" type="button">Reset to defaults</button>
@@ -78,7 +88,7 @@
     </main>
 
     <footer class="site-footer">
-      <small>QR Studio PR #4</small>
+      <small>QR Studio PR #5</small>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js" defer></script>
