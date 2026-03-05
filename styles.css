@@ -152,11 +152,19 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
+.preview-canvas-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
 canvas {
   display: block;
   width: min(100%, 360px);
   height: auto;
-  margin: 0 auto 1rem;
+  margin: 0;
   border: 1px solid var(--border);
   border-radius: 8px;
   background: #fff;

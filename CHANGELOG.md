@@ -4,15 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-### Added
-- Added optional municipality logo toggle: **Vis Tønsberg kommune-logo i QR**.
-- Added dedicated municipality logo asset at `assets/tonsberg-logo.svg`.
-- Added `src/logo.js` to load and draw the municipality logo with a white circular background.
+### Fixed
+- Municipality logo now loads from local `./assets/tonsberg-logo.png` with cache-busting query parameters for GitHub Pages updates.
+- Logo loading failures now reset logo-promise cache so a later render can retry successfully.
+- QR rendering now keeps generated output even if logo overlay fails, with a clear status/error message.
 
 ### Changed
-- Updated QR render pipeline to overlay municipality logo in the center when enabled.
-- Enforced automatic error-correction level `H` while municipality logo is enabled.
-- Updated README with “Kommunelogo i QR”, scanning guidance, and PR #5 manual tests.
+- Municipality logo overlay is now rendered as a rounded branded badge with circular clipping and a subtle responsive border.
+- Preview canvas is centered with flexbox so margin/padding changes no longer appear top-left aligned in the preview panel.
+- README documentation now references PNG logo usage, GitHub Pages cache behavior, and PR5.1 manual tests.
 
 ### Previous
 - Added foreground/background color pickers to customize QR rendering colors.

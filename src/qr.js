@@ -49,7 +49,12 @@ export async function renderQrToCanvas({
       const ctx = canvas.getContext('2d');
       await drawMunicipalityLogo(ctx, normalizedSize);
     } catch (error) {
-      return { ok: false, message: 'QR generated, but municipality logo could not be shown.' };
+      console.error('Municipality logo overlay failed:', error);
+      return {
+        ok: true,
+        message:
+          'QR generated, but municipality logo could not be loaded from ./assets/tonsberg-logo.png.',
+      };
     }
   }
 
