@@ -9,63 +9,55 @@
   <body>
     <header class="site-header">
       <h1>QR Studio</h1>
-      <p>Create and customize QR codes in seconds.</p>
+      <p>Generate QR codes instantly in your browser.</p>
     </header>
 
-    <main class="app-shell" aria-label="QR generator placeholder app">
-      <section class="panel panel-input" aria-labelledby="content-heading">
-        <h2 id="content-heading">1) Content</h2>
+    <main class="app-shell" aria-label="QR generator app">
+      <section class="panel" aria-labelledby="content-heading">
+        <h2 id="content-heading">Content</h2>
         <label for="qr-content">Text or URL</label>
         <textarea
           id="qr-content"
           name="qr-content"
-          rows="5"
+          rows="4"
           placeholder="https://example.com"
-          aria-describedby="content-help"
+          aria-describedby="status-message"
         ></textarea>
-        <p id="content-help" class="hint">Placeholder input only (QR generation coming soon).</p>
       </section>
 
-      <section class="panel panel-settings" aria-labelledby="settings-heading">
-        <h2 id="settings-heading">2) Settings</h2>
+      <section class="panel" aria-labelledby="settings-heading">
+        <h2 id="settings-heading">Settings</h2>
+
         <div class="setting-row">
-          <label for="size">Size</label>
-          <select id="size" name="size" disabled>
-            <option>256 x 256</option>
-            <option>512 x 512</option>
+          <label for="size">Size: <span id="size-value">256</span>px</label>
+          <input id="size" name="size" type="range" min="128" max="512" step="16" value="256" />
+        </div>
+
+        <div class="setting-row">
+          <label for="ec-level">Error correction</label>
+          <select id="ec-level" name="ec-level">
+            <option value="L">L (Low)</option>
+            <option value="M" selected>M (Medium)</option>
+            <option value="Q">Q (Quartile)</option>
+            <option value="H">H (High)</option>
           </select>
         </div>
-        <div class="setting-row">
-          <label for="foreground">Foreground color</label>
-          <input id="foreground" type="color" value="#111111" disabled />
-        </div>
-        <div class="setting-row">
-          <label for="background">Background color</label>
-          <input id="background" type="color" value="#ffffff" disabled />
-        </div>
+
+        <button id="generate-btn" type="button">Generate QR</button>
       </section>
 
       <section class="panel panel-preview" aria-labelledby="preview-heading">
-        <h2 id="preview-heading">3) Preview</h2>
-        <div class="preview-placeholder" role="img" aria-label="QR preview placeholder">
-          QR Preview
-        </div>
-      </section>
-
-      <section class="panel panel-actions" aria-labelledby="actions-heading">
-        <h2 id="actions-heading">4) Actions</h2>
-        <div class="actions">
-          <button type="button" disabled>Generate</button>
-          <button type="button" disabled>Download PNG</button>
-          <button type="button" disabled>Copy Link</button>
-        </div>
+        <h2 id="preview-heading">Preview</h2>
+        <canvas id="qr-canvas" width="256" height="256" aria-label="Generated QR preview"></canvas>
+        <p id="status-message" class="hint" role="status">Enter text or URL to generate a QR code.</p>
       </section>
     </main>
 
     <footer class="site-footer">
-      <small>QR Studio PR #1 scaffold</small>
+      <small>QR Studio PR #2</small>
     </footer>
 
-    <script src="src/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js" defer></script>
+    <script type="module" src="src/app.js"></script>
   </body>
 </html>
