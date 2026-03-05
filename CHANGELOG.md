@@ -4,15 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-### Added
-- Added optional municipality logo toggle: **Vis Tønsberg kommune-logo i QR**.
-- Added dedicated municipality logo asset at `assets/tonsberg-logo.svg`.
-- Added `src/logo.js` to load and draw the municipality logo with a white circular background.
+### Fixed
+- Stabilized municipality logo cache-busting by using a constant `APP_ASSET_VERSION` query value instead of time-based cache keys.
+- Municipality logo load failures continue to clear logo promise cache, allowing retries on subsequent renders.
 
 ### Changed
-- Updated QR render pipeline to overlay municipality logo in the center when enabled.
-- Enforced automatic error-correction level `H` while municipality logo is enabled.
-- Updated README with “Kommunelogo i QR”, scanning guidance, and PR #5 manual tests.
+- Updated municipality logo badge rendering with refined proportions: 16% logo size, rounded clipping, white circular badge, and subtle circular border stroke.
+- Kept QR preview canvas centered in `.preview-canvas-wrap` with flexbox alignment while margin/size settings change.
+- Updated README with PR5.2 manual checks including badge visuals, centered preview behavior, and version-based cache-bust verification.
 
 ### Previous
 - Added foreground/background color pickers to customize QR rendering colors.

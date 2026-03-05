@@ -1,5 +1,10 @@
-const MUNICIPALITY_LOGO_PATH = 'assets/tonsberg-logo.svg';
+const MUNICIPALITY_LOGO_PATH = './assets/tonsberg-logo.png';
+const APP_ASSET_VERSION = '5.2.0';
 let municipalityLogoPromise;
+
+function buildLogoSource() {
+  return `${MUNICIPALITY_LOGO_PATH}?v=${encodeURIComponent(APP_ASSET_VERSION)}`;
+}
 
 function loadMunicipalityLogo() {
   if (!municipalityLogoPromise) {
@@ -7,8 +12,11 @@ function loadMunicipalityLogo() {
       const image = new Image();
       image.decoding = 'async';
       image.onload = () => resolve(image);
-      image.onerror = () => reject(new Error('Could not load municipality logo image.'));
-      image.src = MUNICIPALITY_LOGO_PATH;
+      image.onerror = () => {
+        municipalityLogoPromise = null;
+        reject(new Error('Could not load municipality logo image from ./assets/tonsberg-logo.png.'));
+      };
+      image.src = buildLogoSource();
     });
   }
 
@@ -20,19 +28,40 @@ export async function drawMunicipalityLogo(ctx, canvasSize) {
     throw new Error('Canvas context is required to draw municipality logo.');
   }
 
-  const logoImage = await loadMunicipalityLogo();
-  const logoSize = canvasSize * 0.18;
-  const center = canvasSize / 2;
-  const x = center - logoSize / 2;
-  const y = center - logoSize / 2;
+  try {
+    const logoImage = await loadMunicipalityLogo();
+    const center = canvasSize / 2;
+    const logoSize = canvasSize * 0.16;
+    const logoX = center - logoSize / 2;
+    const logoY = center - logoSize / 2;
 
-  const backgroundRadius = logoSize * 0.68;
-  ctx.save();
-  ctx.beginPath();
-  ctx.fillStyle = '#ffffff';
-  ctx.arc(center, center, backgroundRadius, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.restore();
+    const badgeRadius = (logoSize / 2) * 1.55;
+    const clipRadius = badgeRadius * 0.82;
+    const borderWidth = Math.max(1, canvasSize * 0.0045);
 
-  ctx.drawImage(logoImage, x, y, logoSize, logoSize);
+    ctx.save();
+    ctx.beginPath();
+    ctx.fillStyle = '#ffffff';
+    ctx.arc(center, center, badgeRadius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(center, center, clipRadius, 0, Math.PI * 2);
+    ctx.clip();
+    ctx.drawImage(logoImage, logoX, logoY, logoSize, logoSize);
+    ctx.restore();
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.lineWidth = borderWidth;
+    ctx.strokeStyle = 'rgba(30, 64, 175, 0.24)';
+    ctx.arc(center, center, badgeRadius - borderWidth / 2, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+  } catch (error) {
+    municipalityLogoPromise = null;
+    throw error;
+  }
 }
