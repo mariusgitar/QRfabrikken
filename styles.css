@@ -9,6 +9,7 @@
   --accent-strong: #1e40af;
   --danger: #b91c1c;
   --focus: #0ea5e9;
+  --qr-accent: #111111;
 }
 
 * {
@@ -159,6 +160,9 @@ button:focus-visible {
   width: 100%;
   min-height: 0;
   margin-bottom: 1rem;
+  border: 2px solid var(--qr-accent, #111);
+  border-radius: 14px;
+  padding: 18px;
 }
 
 canvas {
