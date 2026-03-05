@@ -1,9 +1,11 @@
+import { downloadCanvasPng, copyCanvasToClipboard } from './download.js';
 import { renderQrToCanvas } from './qr.js';
 
 const state = {
   text: '',
   size: 256,
   ecLevel: 'M',
+  hasQr: false,
 };
 
 let dom = {};
@@ -14,6 +16,11 @@ function setStatus(message, isError = false) {
   dom.statusMessage.classList.toggle('error', isError);
 }
 
+function setActionsDisabled(isDisabled) {
+  dom.downloadButton.disabled = isDisabled;
+  dom.copyButton.disabled = isDisabled;
+}
+
 function updateView() {
   dom.sizeValue.textContent = String(state.size);
 
@@ -21,8 +28,11 @@ function updateView() {
     text: state.text,
     size: state.size,
     ecLevel: state.ecLevel,
+    canvas: dom.qrCanvas,
   });
 
+  state.hasQr = result.ok;
+  setActionsDisabled(!state.hasQr);
   setStatus(result.message, !result.ok);
 }
 
@@ -51,6 +61,24 @@ function bindEvents() {
     state.text = dom.contentInput.value;
     updateView();
   });
+
+  dom.downloadButton.addEventListener('click', () => {
+    if (!state.hasQr) {
+      return;
+    }
+
+    const result = downloadCanvasPng(dom.qrCanvas, state.text);
+    setStatus(result.message, !result.ok);
+  });
+
+  dom.copyButton.addEventListener('click', async () => {
+    if (!state.hasQr) {
+      return;
+    }
+
+    const result = await copyCanvasToClipboard(dom.qrCanvas);
+    setStatus(result.message, !result.ok);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -60,6 +88,9 @@ document.addEventListener('DOMContentLoaded', () => {
     sizeValue: document.getElementById('size-value'),
     ecLevelSelect: document.getElementById('ec-level'),
     generateButton: document.getElementById('generate-btn'),
+    downloadButton: document.getElementById('download-btn'),
+    copyButton: document.getElementById('copy-btn'),
+    qrCanvas: document.getElementById('qr-canvas'),
     statusMessage: document.getElementById('status-message'),
   };
 

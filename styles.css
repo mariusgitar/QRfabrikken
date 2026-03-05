@@ -85,6 +85,11 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 canvas {
   display: block;
   width: 100%;
@@ -94,6 +99,12 @@ canvas {
   border: 1px solid var(--border);
   border-radius: 8px;
   background: #fff;
+}
+
+.actions {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 0.8rem;
 }
 
 .hint {
@@ -113,5 +124,9 @@ canvas {
 
   .panel-preview {
     grid-column: span 2;
+  }
+
+  .actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

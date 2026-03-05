@@ -49,12 +49,18 @@
       <section class="panel panel-preview" aria-labelledby="preview-heading">
         <h2 id="preview-heading">Preview</h2>
         <canvas id="qr-canvas" width="256" height="256" aria-label="Generated QR preview"></canvas>
+
+        <div class="actions" aria-label="QR actions">
+          <button id="download-btn" type="button" disabled>Download PNG</button>
+          <button id="copy-btn" type="button" disabled>Copy image</button>
+        </div>
+
         <p id="status-message" class="hint" role="status">Enter text or URL to generate a QR code.</p>
       </section>
     </main>
 
     <footer class="site-footer">
-      <small>QR Studio PR #2</small>
+      <small>QR Studio PR #3</small>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js" defer></script>

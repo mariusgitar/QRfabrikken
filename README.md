@@ -2,11 +2,13 @@
 
 QR Studio is a lightweight, dependency-free static web app for generating QR codes directly in the browser.
 
-## Features in PR #2
+## Features in PR #3
 
 - Enter any text or URL and generate a QR code.
 - Adjust output size from 128px to 512px.
 - Choose error correction level: L, M, Q, or H.
+- Download the current QR preview as a PNG file.
+- Copy the current QR image to clipboard with graceful fallback messaging.
 - Instant preview updates with helpful inline status messages.
 
 ## Project structure
@@ -15,6 +17,7 @@ QR Studio is a lightweight, dependency-free static web app for generating QR cod
 - `styles.css` — responsive mobile-first styling
 - `src/app.js` — UI wiring and state/update flow
 - `src/qr.js` — QR rendering helper logic
+- `src/download.js` — PNG download and clipboard-copy helpers
 - `.github/workflows/pages.yml` — GitHub Pages deployment workflow
 
 ## Run locally
@@ -41,7 +44,8 @@ No build tools or package installs are required.
 2. Click **Generate QR** (or just type and wait for auto-update).
 3. Use the **Size** slider to change output dimensions.
 4. Select an **Error correction** level (L/M/Q/H).
-5. Confirm the preview canvas updates and status text reports success.
+5. Click **Download PNG** to save the generated QR image.
+6. Click **Copy image** to copy PNG data to clipboard (if supported by your browser).
 
 ## Deploy to GitHub Pages
 
@@ -52,10 +56,8 @@ Deployment is automated through GitHub Actions.
 3. The workflow in `.github/workflows/pages.yml` publishes the repository root.
 4. Open the generated `github-pages` environment URL.
 
-## Manual test checklist (PR #2)
+## Manual test checklist (PR #3)
 
-- [x] Enter a URL → QR appears.
-- [x] Change size → QR updates.
-- [x] Change error correction → QR updates.
-- [x] Empty input clears preview and shows guidance.
-- [x] No console errors.
+- [x] Generate QR → Download saves a PNG.
+- [x] Filename includes date/time or sanitized text snippet.
+- [x] Copy image works in modern browsers; if blocked, show helpful message.
