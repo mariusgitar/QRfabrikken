@@ -64,8 +64,9 @@ function baseOptions({
     },
     imageOptions: {
       crossOrigin: 'anonymous',
-      margin: 6,
-      imageSize: 0.35,
+      hideBackgroundDots: true,
+      margin: 8,
+      imageSize: 0.32,
     },
   };
 }

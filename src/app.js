@@ -20,6 +20,10 @@ let dom = {};
 let debounceTimer;
 let renderToken = 0;
 
+function syncQrAccentColor() {
+  document.documentElement.style.setProperty('--qr-accent', state.fgColor);
+}
+
 function setStatus(message, isError = false) {
   dom.statusMessage.textContent = message;
   dom.statusMessage.classList.toggle('error', isError);
@@ -48,6 +52,7 @@ function applyStateToInputs() {
   dom.marginInput.value = String(state.margin);
   dom.marginValue.textContent = String(state.margin);
   dom.municipalityLogoToggle.checked = state.showMunicipalityLogo;
+  syncQrAccentColor();
   syncErrorCorrectionUi();
 }
 
@@ -104,6 +109,7 @@ function bindEvents() {
 
   dom.fgColorInput.addEventListener('input', (event) => {
     state.fgColor = event.target.value;
+    syncQrAccentColor();
     updateView();
   });
 
