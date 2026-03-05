@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Studio</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <h1>QR Studio</h1>
+      <p>Generate QR codes instantly in your browser.</p>
+    </header>
+
+    <main class="app-shell" aria-label="QR generator app">
+      <section class="panel" aria-labelledby="content-heading">
+        <h2 id="content-heading">Content</h2>
+        <label for="qr-content">Text or URL</label>
+        <textarea
+          id="qr-content"
+          name="qr-content"
+          rows="4"
+          placeholder="https://example.com"
+          aria-describedby="status-message"
+        ></textarea>
+      </section>
+
+      <section class="panel" aria-labelledby="settings-heading">
+        <h2 id="settings-heading">Settings</h2>
+
+        <div class="setting-row">
+          <label for="size">Size: <span id="size-value">256</span>px</label>
+          <input id="size" name="size" type="range" min="128" max="512" step="16" value="256" />
+        </div>
+
+        <div class="setting-row">
+          <label for="ec-level">Error correction</label>
+          <select id="ec-level" name="ec-level">
+            <option value="L">L (Low)</option>
+            <option value="M" selected>M (Medium)</option>
+            <option value="Q">Q (Quartile)</option>
+            <option value="H">H (High)</option>
+          </select>
+        </div>
+
+        <button id="generate-btn" type="button">Generate QR</button>
+      </section>
+
+      <section class="panel panel-preview" aria-labelledby="preview-heading">
+        <h2 id="preview-heading">Preview</h2>
+        <canvas id="qr-canvas" width="256" height="256" aria-label="Generated QR preview"></canvas>
+        <p id="status-message" class="hint" role="status">Enter text or URL to generate a QR code.</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <small>QR Studio PR #2</small>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js" defer></script>
+    <script type="module" src="src/app.js"></script>
+  </body>
+</html>
