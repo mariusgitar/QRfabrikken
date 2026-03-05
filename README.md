@@ -18,7 +18,7 @@ QR Studio is a lightweight, dependency-free static web app for generating QR cod
 
 - `index.html` — semantic UI layout
 - `styles.css` — responsive mobile-first styling and a11y focus states
-- `assets/tonsberg-logo.svg` — municipality logo asset used in QR overlay
+- `assets/tonsberg-logo.png` — municipality logo asset used in QR overlay
 - `src/app.js` — UI wiring and state/update flow
 - `src/qr.js` — QR rendering helper pipeline
 - `src/logo.js` — municipality logo overlay drawing logic
@@ -61,6 +61,8 @@ Designvalg i denne løsningen:
 - Logoen har fast størrelse på omtrent **18% av QR-bredden**.
 - Det tegnes en **hvit sirkulær bakgrunn** bak logoen for bedre kontrast og lesbarhet.
 - Kun **Tønsberg kommune-logo** støttes i prosjektet. Opplasting av egne logoer er ikke tilgjengelig.
+- Logoen må ligge lokalt på `assets/tonsberg-logo.png`.
+- GitHub Pages-cache håndteres med innebygd cache-busting ved innlasting av logo, slik at oppdateringer med samme filnavn kan hentes etter refresh.
 
 Skanningsanbefalinger:
 - Bruk mørk forgrunn og lys bakgrunn for best kontrast.
@@ -76,12 +78,10 @@ Deployment is automated through GitHub Actions.
 3. The workflow in `.github/workflows/pages.yml` publishes the repository root.
 4. Open the generated `github-pages` environment URL.
 
-## Manual test checklist (PR #5)
+## Manual test checklist (PR5.1)
 
-- [x] Generate QR with URL.
-- [x] Enable logo.
-- [x] Confirm logo appears centered.
-- [x] Scan QR with phone camera.
-- [x] Confirm QR still resolves correctly.
-- [x] Disable logo and verify QR updates.
-- [x] Confirm no console errors.
+- [x] Generate QR from a URL with logo toggle **OFF** -> QR renders and scans.
+- [x] Toggle logo **ON** -> logo from `assets/tonsberg-logo.png` appears and QR still scans.
+- [x] Replace `assets/tonsberg-logo.png` (same filename) and refresh -> updated logo appears (cache-busting).
+- [x] Change margin/padding -> QR preview stays visually centered in the preview card.
+- [x] Download PNG works and browser console stays free of errors during normal flow.

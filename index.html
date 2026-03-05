@@ -76,7 +76,9 @@
 
       <section class="panel panel-preview" aria-labelledby="preview-heading">
         <h2 id="preview-heading">Preview</h2>
-        <canvas id="qr-canvas" width="256" height="256" aria-label="Generated QR preview"></canvas>
+        <div class="preview-canvas-wrap">
+          <canvas id="qr-canvas" width="256" height="256" aria-label="Generated QR preview"></canvas>
+        </div>
 
         <div class="actions" aria-label="QR actions">
           <button id="download-btn" type="button" disabled>Download PNG</button>
