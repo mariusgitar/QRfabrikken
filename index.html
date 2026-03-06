@@ -7,15 +7,25 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header class="site-header">
-      <h1>QR-fabrikken</h1>
-      <p>Lag stilige QR-koder på et blunk – rett i nettleseren.</p>
-    </header>
-
     <main class="app-shell" aria-label="QR-generator">
       <section class="panel panel-main" aria-labelledby="content-heading">
-        <h2 id="content-heading">Lag QR-kode</h2>
-        <p class="setting-info">Lim inn URL – ferdig.</p>
+        <h1 id="content-heading">QR-fabrikken</h1>
+        <p class="setting-info intro-text">Lag skannbare QR-koder med kommuneprofil – behandles lokalt i nettleseren.</p>
+
+        <div class="mode-tabs" role="tablist" aria-label="Verktøy-moduser">
+          <button type="button" class="mode-tab mode-tab-active" aria-selected="true">Lag QR-kode</button>
+          <button
+            id="open-settings-btn"
+            class="mode-tab"
+            type="button"
+            aria-controls="advanced-settings"
+            aria-selected="false"
+          >
+            Tilpass utseende
+          </button>
+        </div>
+
+        <p class="setting-info quick-logo-status">Kommunelogo: <strong id="logo-status-value">På</strong></p>
 
         <label for="qr-content">Lenke eller tekst</label>
         <textarea
@@ -25,11 +35,6 @@
           placeholder="https://dinlenke.no"
           aria-describedby="status-message"
         ></textarea>
-
-        <p class="setting-info quick-logo-status">
-          Kommunelogo: <strong id="logo-status-value">På</strong>
-          <button id="open-settings-btn" class="link-button" type="button" aria-controls="advanced-settings">Endre innstillinger</button>
-        </p>
 
         <div class="preview-canvas-wrap">
           <div id="qr-preview" aria-label="Forhåndsvisning av QR-kode"></div>
@@ -96,10 +101,6 @@
         </details>
       </section>
     </main>
-
-    <footer class="site-footer">
-      <small>QR-fabrikken – laget for raske, skarpe koder</small>
-    </footer>
 
     <script src="https://unpkg.com/qr-code-styling/lib/qr-code-styling.js" defer></script>
     <script type="module" src="src/app.js"></script>
