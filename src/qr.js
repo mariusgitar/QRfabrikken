@@ -83,7 +83,7 @@ function baseOptions({
     },
     imageOptions: {
       crossOrigin: 'anonymous',
-      hideBackgroundDots: true,
+      hideBackgroundDots: false,
       margin: logoMargin,
       imageSize,
     },
