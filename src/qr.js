@@ -1,5 +1,5 @@
 const VALID_EC_LEVELS = new Set(['L', 'M', 'Q', 'H']);
-const APP_ASSET_VERSION = '7.0.0';
+const APP_ASSET_VERSION = '7.0.1';
 const MUNICIPALITY_LOGO_PATH = `./assets/tonsberg-logo.png?v=${encodeURIComponent(APP_ASSET_VERSION)}`;
 const SIZE_MIN = 512;
 const SIZE_MAX = 1024;
