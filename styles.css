@@ -61,40 +61,6 @@ body {
   font-size: 1.05rem;
 }
 
-.mode-tabs {
-  display: grid;
-  grid-template-columns: 1fr;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  margin: 0.7rem 0 0.75rem;
-}
-
-.mode-tab {
-  width: 100%;
-  border: 0;
-  border-radius: 0;
-  margin: 0;
-  padding: 0.85rem;
-  background: transparent;
-  color: #374151;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.mode-tab-active {
-  background: var(--accent);
-  color: #fff;
-}
-
-.mode-tab:hover:enabled {
-  background: #e5e7eb;
-}
-
-.mode-tab-active:hover:enabled {
-  background: var(--accent-strong);
-}
-
 label {
   font-weight: 600;
 }
