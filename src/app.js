@@ -160,10 +160,12 @@ function bindEvents() {
     updateView();
   });
 
-  dom.openSettingsButton.addEventListener('click', () => {
-    dom.advancedSettings.open = true;
-    dom.advancedSettings.querySelector('summary')?.focus();
-  });
+  if (dom.openSettingsButton) {
+    dom.openSettingsButton.addEventListener('click', () => {
+      dom.advancedSettings.open = true;
+      dom.advancedSettings.querySelector('summary')?.focus();
+    });
+  }
 
   dom.resetButton.addEventListener('click', () => {
     Object.assign(state, DEFAULTS);
@@ -211,7 +213,9 @@ document.addEventListener('DOMContentLoaded', () => {
     statusMessage: document.getElementById('status-message'),
   };
 
-  if (Object.values(dom).some((element) => !element)) {
+  const requiredElements = Object.entries(dom).filter(([key]) => key !== 'openSettingsButton');
+
+  if (requiredElements.some(([, element]) => !element)) {
     console.error('QR-fabrikken kunne ikke starte: mangler nødvendige elementer i siden.');
     return;
   }
