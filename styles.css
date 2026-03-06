@@ -9,6 +9,7 @@
   --accent-strong: #1e40af;
   --danger: #b91c1c;
   --focus: #0ea5e9;
+  --qr-accent: #111111;
 }
 
 * {
@@ -111,6 +112,14 @@ input {
   color: var(--muted);
 }
 
+.quick-logo-status {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
 input[type='color'] {
   width: 4rem;
   height: 2.5rem;
@@ -144,12 +153,56 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.link-button {
+  width: auto;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--accent-strong);
+  text-decoration: underline;
+}
+
+.link-button:hover:enabled {
+  background: transparent;
+  color: var(--accent);
+}
+
 textarea:focus-visible,
 select:focus-visible,
 input:focus-visible,
-button:focus-visible {
+button:focus-visible,
+summary:focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 2px;
+}
+
+.advanced-settings {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.25rem 0.75rem 0.75rem;
+}
+
+.advanced-settings summary {
+  list-style: none;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.65rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.advanced-settings summary::-webkit-details-marker {
+  display: none;
+}
+
+.advanced-settings summary::after {
+  content: '▾';
+  color: var(--muted);
+}
+
+.advanced-settings[open] summary::after {
+  content: '▴';
 }
 
 .preview-canvas-wrap {
@@ -158,19 +211,11 @@ button:focus-visible {
   justify-content: center;
   width: 100%;
   min-height: 0;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
+  border: 2px solid var(--qr-accent, #111);
+  border-radius: 14px;
+  padding: 18px;
 }
-
-canvas {
-  display: block;
-  width: min(100%, 360px);
-  height: auto;
-  margin: 0;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: #fff;
-}
-
 
 #qr-preview {
   display: flex;
@@ -191,7 +236,6 @@ canvas {
   background: #fff;
 }
 
-
 .hint {
   margin: 0;
   color: var(--muted);
@@ -205,15 +249,10 @@ canvas {
 
 @media (min-width: 768px) {
   .app-shell {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 2fr 1fr;
     align-items: start;
   }
 
-  .panel-preview {
-    grid-column: span 2;
-  }
-
-  .settings-actions,
   .actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
