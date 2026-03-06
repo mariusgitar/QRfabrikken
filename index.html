@@ -1,28 +1,28 @@
 <!doctype html>
-<html lang="en">
+<html lang="no">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>QR Studio</title>
+    <title>QR-fabrikken</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header class="site-header">
-      <h1>QR Studio</h1>
-      <p>Generate QR codes instantly in your browser.</p>
+      <h1>QR-fabrikken</h1>
+      <p>Lag stilige QR-koder på et blunk – rett i nettleseren.</p>
     </header>
 
-    <main class="app-shell" aria-label="QR generator app">
+    <main class="app-shell" aria-label="QR-generator">
       <section class="panel panel-main" aria-labelledby="content-heading">
-        <h2 id="content-heading">QR generator</h2>
+        <h2 id="content-heading">Lag QR-kode</h2>
         <p class="setting-info">Lim inn URL – ferdig.</p>
 
-        <label for="qr-content">Text or URL</label>
+        <label for="qr-content">Lenke eller tekst</label>
         <textarea
           id="qr-content"
           name="qr-content"
           rows="4"
-          placeholder="https://example.com"
+          placeholder="https://dinlenke.no"
           aria-describedby="status-message"
         ></textarea>
 
@@ -32,73 +32,73 @@
         </p>
 
         <div class="preview-canvas-wrap">
-          <div id="qr-preview" aria-label="Generated QR preview"></div>
+          <div id="qr-preview" aria-label="Forhåndsvisning av QR-kode"></div>
         </div>
 
-        <div class="actions" aria-label="QR actions">
-          <button id="download-btn" type="button" disabled>Download PNG</button>
-          <button id="copy-btn" type="button" disabled>Copy image</button>
+        <div class="actions" aria-label="QR-handlinger">
+          <button id="download-btn" type="button" disabled>Last ned PNG</button>
+          <button id="copy-btn" type="button" disabled>Kopier bilde</button>
         </div>
 
-        <p id="status-message" class="hint" role="status">Enter text or URL to generate a QR code.</p>
+        <p id="status-message" class="hint" role="status">Lim inn lenke eller tekst for å starte QR-maskinen 🚀</p>
       </section>
 
       <section class="panel" aria-labelledby="settings-heading">
-        <h2 id="settings-heading">Advanced</h2>
+        <h2 id="settings-heading">Avansert</h2>
 
         <details id="advanced-settings" class="advanced-settings">
           <summary id="advanced-settings-summary">Flere innstillinger</summary>
 
           <div class="setting-row">
-            <label for="size">Size: <span id="size-value">800</span>px</label>
+            <label for="size">Størrelse: <span id="size-value">800</span> px</label>
             <input id="size" name="size" type="range" min="512" max="1024" step="32" value="800" />
             <p class="setting-info">Tips: Bruk 512–1024 for skarp logo og trykk.</p>
           </div>
 
           <div class="setting-row">
-            <label for="margin">Margin: <span id="margin-value">4</span></label>
+            <label for="margin">Luft rundt kode: <span id="margin-value">4</span></label>
             <input id="margin" name="margin" type="range" min="4" max="16" step="1" value="4" />
           </div>
 
           <div class="setting-row">
-            <label for="ec-level">Error correction</label>
+            <label for="ec-level">Feilkorreksjon</label>
             <select id="ec-level" name="ec-level">
-              <option value="L">L (Low)</option>
-              <option value="M">M (Medium)</option>
-              <option value="Q">Q (Quartile)</option>
-              <option value="H" selected>H (High)</option>
+              <option value="L">L (Lav)</option>
+              <option value="M">M (Middels)</option>
+              <option value="Q">Q (Høy)</option>
+              <option value="H" selected>H (Maks)</option>
             </select>
           </div>
 
           <div class="setting-row setting-row-inline">
-            <label for="fg-color">Foreground</label>
+            <label for="fg-color">Forgrunnsfarge</label>
             <input id="fg-color" name="fg-color" type="color" value="#111111" />
           </div>
 
           <div class="setting-row setting-row-inline">
-            <label for="bg-color">Background</label>
+            <label for="bg-color">Bakgrunnsfarge</label>
             <input id="bg-color" name="bg-color" type="color" value="#ffffff" />
           </div>
 
           <div class="setting-row setting-row-checkbox">
             <label for="municipality-logo-toggle">
               <input id="municipality-logo-toggle" name="municipality-logo-toggle" type="checkbox" checked />
-              Vis Tønsberg kommune-logo i QR
+              Vis Tønsberg kommune-logo i QR-koden
             </label>
             <p class="setting-info">
-              Når logo brukes settes feilkorreksjon til høyeste nivå (H) for bedre lesbarhet.
+              Med logo skrur vi automatisk på høyeste feilkorreksjon (H), så koden holder seg skannbar.
             </p>
           </div>
 
           <div class="settings-actions">
-            <button id="reset-btn" type="button">Reset to defaults</button>
+            <button id="reset-btn" type="button">Tilbakestill standardvalg</button>
           </div>
         </details>
       </section>
     </main>
 
     <footer class="site-footer">
-      <small>QR Studio UX update</small>
+      <small>QR-fabrikken – laget for raske, skarpe koder</small>
     </footer>
 
     <script src="https://unpkg.com/qr-code-styling/lib/qr-code-styling.js" defer></script>

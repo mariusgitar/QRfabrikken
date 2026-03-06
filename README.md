@@ -1,50 +1,37 @@
-# QR Studio
+# QR-fabrikken
 
-QR Studio is a lightweight static web app for generating branded QR codes directly in the browser.
+QR-fabrikken er en liten, rask nettapp som lager stilige QR-koder rett i nettleseren.
 
-## Simple mode (default workflow)
+## Slik bruker du den (superenkelt)
 
-1. Lim inn tekst eller URL i feltet.
-2. QR forhåndsvisning oppdateres automatisk med sensible defaults:
-   - størrelse `800px`
-   - kommunelogo **på**
-   - feilkorreksjon `H` når logo er aktiv
-3. Klikk **Download PNG** (eller **Copy image**) for å bruke QR-koden.
+1. Lim inn lenke eller tekst.
+2. Se forhåndsvisning oppdatere seg automatisk.
+3. Klikk **Last ned PNG** eller **Kopier bilde**.
 
-Dette er laget for ikke-eksperter: «Lim inn URL – ferdig.»
+Ferdig. Ja, så lett skal det være.
 
-## Advanced settings
+## Flere innstillinger
 
-Klikk **Flere innstillinger** for å åpne avanserte valg:
+Klikk **Flere innstillinger** hvis du vil finjustere:
 
-- Size slider (`512–1024`, step `32`)
-- Margin (minimum `4`)
-- Error correction
-- Foreground/background-farger
-- Toggle for kommunelogo
+- størrelse (512–1024)
+- luft rundt koden (margin)
+- feilkorreksjon
+- farger
+- kommune-logo av/på
 
-Merk: Kommunelogo er på som standard. Du kan åpne settings via **Endre innstillinger**.
+Standardvalg er laget for trygg bruk: størrelse 800, logo på, feilkorreksjon H og margin minst 4.
 
-## Municipality logo guidance
+## Logo og kvalitet
 
-- Bruk kun kommunens logo (ingen opplasting/presets).
-- Foretrukket kilde: `assets/tonsberg-logo.svg` (vektor).
-- Fallback: `assets/tonsberg-logo.png` i høy oppløsning (`1024x1024` anbefalt).
-- QR størrelser under 512 kan gi blurr på rasterlogo; derfor clampes størrelsen til `512–1024`.
+- Bruk kommunens logo i høy kvalitet for skarpest resultat.
+- Vektor (`.svg`) er best, men høyoppløst PNG fungerer også fint.
+- Små QR-koder kan gjøre rasterlogo litt uklar, derfor er minimum satt til 512 px.
 
-## Run locally
+## Kjør lokalt
 
 ```bash
 python3 -m http.server 8000
 ```
 
 Åpne deretter `http://localhost:8000`.
-
-## Manual test checklist
-
-- [x] Last siden: default size er `800`, logo er **på**, og QR genereres når URL/text limes inn.
-- [x] Avanserte innstillinger er skjult som default.
-- [x] Åpne **Flere innstillinger** og endre size/margin/farger/logo -> preview oppdateres.
-- [x] Download PNG fungerer og eksport matcher preview.
-- [x] Tastatur: Tab til summary, Enter/Space toggler details, fokus er synlig.
-- [x] Ingen console errors i normal flyt.

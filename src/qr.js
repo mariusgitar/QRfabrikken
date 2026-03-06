@@ -105,17 +105,17 @@ export async function renderQrToCanvas({
 }) {
   const container = document.getElementById('qr-preview');
   if (!container) {
-    return { ok: false, message: 'QR preview element not found.' };
+    return { ok: false, message: 'Fant ikke området for forhåndsvisning av QR-koden.' };
   }
 
   const trimmedText = String(text ?? '').trim();
   if (!trimmedText) {
     clearPreview(container);
-    return { ok: false, message: 'Enter text or URL to generate a QR code.' };
+    return { ok: false, message: 'Skriv inn en lenke eller tekst, så bygger vi QR-koden for deg.' };
   }
 
   if (!window.QRCodeStyling) {
-    return { ok: false, message: 'QR library failed to load. Please refresh and try again.' };
+    return { ok: false, message: 'QR-biblioteket lastet ikke inn. Prøv å laste siden på nytt.' };
   }
 
   const normalizedSize = normalizeSize(size);
@@ -140,5 +140,5 @@ export async function renderQrToCanvas({
     qr.update(options);
   }
 
-  return { ok: true, message: 'QR code updated.' };
+  return { ok: true, message: 'QR-koden er oppdatert og klar ✨' };
 }

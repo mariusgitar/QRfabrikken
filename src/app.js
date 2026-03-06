@@ -169,7 +169,7 @@ function bindEvents() {
     Object.assign(state, DEFAULTS);
     applyStateToInputs();
     updateView();
-    setStatus('Settings reset to defaults.', false);
+    setStatus('Innstillingene er nullstilt til standard. Klar for ny QR-runde!', false);
   });
 
   dom.downloadButton.addEventListener('click', () => {
@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   if (Object.values(dom).some((element) => !element)) {
-    console.error('QR Studio failed to initialize: required elements are missing.');
+    console.error('QR-fabrikken kunne ikke starte: mangler nødvendige elementer i siden.');
     return;
   }
 
