@@ -7,6 +7,22 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div id="first-visit-disclaimer" class="disclaimer-overlay" hidden>
+      <section class="disclaimer-dialog" role="dialog" aria-modal="true" aria-labelledby="disclaimer-title">
+        <h2 id="disclaimer-title">Før du bruker verktøyet</h2>
+        <ul>
+          <li>Filene behandles lokalt i nettleseren din (ikke lastes opp).</li>
+          <li>Bruk på eget ansvar.</li>
+          <li>Unngå hemmelige eller svært sensitive dokumenter hvis du er usikker.</li>
+          <li>Store filer kan gjøre nettleseren treg eller krasje.</li>
+        </ul>
+        <div class="disclaimer-actions">
+          <button id="disclaimer-cancel-btn" type="button">Avbryt</button>
+          <button id="disclaimer-confirm-btn" type="button">Jeg forstår – fortsett</button>
+        </div>
+      </section>
+    </div>
+
     <main class="app-shell" aria-label="QR-generator">
       <section class="panel panel-main" aria-labelledby="content-heading">
         <h1 id="content-heading">QR-fabrikken</h1>
