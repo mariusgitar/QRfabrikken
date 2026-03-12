@@ -4,6 +4,7 @@ import { renderQrToCanvas, getQrInstance } from './qr.js';
 const SIZE_MIN = 512;
 const SIZE_MAX = 1024;
 const MARGIN_MIN = 4;
+const DISCLAIMER_STORAGE_KEY = 'qrfabrikkenDisclaimerAccepted';
 
 const DEFAULTS = {
   size: 800,
@@ -23,6 +24,35 @@ const state = {
 let dom = {};
 let debounceTimer;
 let renderToken = 0;
+
+function showFirstVisitDisclaimer() {
+  if (localStorage.getItem(DISCLAIMER_STORAGE_KEY) === '1') {
+    return;
+  }
+
+  dom.disclaimerOverlay.hidden = false;
+  document.body.style.overflow = 'hidden';
+  dom.disclaimerConfirmButton.focus();
+
+  dom.disclaimerConfirmButton.addEventListener(
+    'click',
+    () => {
+      localStorage.setItem(DISCLAIMER_STORAGE_KEY, '1');
+      dom.disclaimerOverlay.hidden = true;
+      document.body.style.overflow = '';
+      dom.contentInput.focus();
+    },
+    { once: true },
+  );
+
+  dom.disclaimerCancelButton.addEventListener(
+    'click',
+    () => {
+      window.location.href = 'about:blank';
+    },
+    { once: true },
+  );
+}
 
 function clampSize(size) {
   const parsed = Number(size);
@@ -211,6 +241,9 @@ document.addEventListener('DOMContentLoaded', () => {
     downloadButton: document.getElementById('download-btn'),
     copyButton: document.getElementById('copy-btn'),
     statusMessage: document.getElementById('status-message'),
+    disclaimerOverlay: document.getElementById('first-visit-disclaimer'),
+    disclaimerCancelButton: document.getElementById('disclaimer-cancel-btn'),
+    disclaimerConfirmButton: document.getElementById('disclaimer-confirm-btn'),
   };
 
   const requiredElements = Object.entries(dom).filter(([key]) => key !== 'openSettingsButton');
@@ -223,4 +256,5 @@ document.addEventListener('DOMContentLoaded', () => {
   applyStateToInputs();
   bindEvents();
   updateView();
+  showFirstVisitDisclaimer();
 });
