@@ -26,7 +26,16 @@ let debounceTimer;
 let renderToken = 0;
 
 function showFirstVisitDisclaimer() {
-  if (localStorage.getItem(DISCLAIMER_STORAGE_KEY) === '1') {
+  const hasAcceptedDisclaimer = (() => {
+    try {
+      return localStorage.getItem(DISCLAIMER_STORAGE_KEY) === '1';
+    } catch (error) {
+      console.warn('Kunne ikke lese disclaimer-status fra localStorage.', error);
+      return false;
+    }
+  })();
+
+  if (hasAcceptedDisclaimer) {
     return;
   }
 
@@ -37,7 +46,11 @@ function showFirstVisitDisclaimer() {
   dom.disclaimerConfirmButton.addEventListener(
     'click',
     () => {
-      localStorage.setItem(DISCLAIMER_STORAGE_KEY, '1');
+      try {
+        localStorage.setItem(DISCLAIMER_STORAGE_KEY, '1');
+      } catch (error) {
+        console.warn('Kunne ikke lagre disclaimer-status i localStorage.', error);
+      }
       dom.disclaimerOverlay.hidden = true;
       document.body.style.overflow = '';
       dom.contentInput.focus();

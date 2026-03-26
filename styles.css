@@ -36,6 +36,10 @@ body {
   z-index: 1000;
 }
 
+.disclaimer-overlay[hidden] {
+  display: none !important;
+}
+
 .disclaimer-dialog {
   width: min(100%, 760px);
   background: #e5e7eb;
